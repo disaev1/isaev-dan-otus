@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mocha Tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <div id="container">
+      <div class="block-1">
+        <div>First item</div>
+        <div class="to fro">Second item</div>
+      </div>
+      <div class="block-2">
+        <div class="to fro">Third item</div>
+        <div class="bar">Fourth item</div>
+        <div class="bar">Fifth item</div>
+      </div>
+      <div class="block-2">
+        <div class="to fro">Sixth item</div>
+        <div class="bar">Seventh item</div>
+        <div class="bar">Eighth item</div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/chai/chai.js"></script>
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+
+    <script class="mocha-init">
+      mocha.setup('bdd');
+      mocha.checkLeaks();
+      expect = chai.expect;
+    </script>
+    <script src="index.js"></script>
+    <script src="index.test.js"></script>
+    <script class="mocha-exec">
+      mocha.run();
+    </script>
+  </body>
+</html>
