@@ -7,7 +7,7 @@
   </head>
   <body>
     <script type="text/javascript">
-      class MyTree extends HTMLElement/*HTMLDivElement*/ {
+      class MyTree extends HTMLElement {
         constructor() {
           super();
           this.myShadow = this.attachShadow({ mode: 'open' });
@@ -16,36 +16,6 @@
         connectedCallback() {
           this.render();
         }
-
-        // static get observedAttributes() {
-        //   return ['id', 'items'];
-        // }
-
-        // attributeChangedCallback(name, oldValue, newValue) {
-        //   if (name === 'items') {
-        //     this._items = JSON.parse(newValue);
-        //   } else if (name === 'id') {
-        //     this._id = Number(newValue);
-        //   }
-        // }
-
-        // get items() {
-        //   return this._items;
-        // }
-
-        // set items(newItems) {
-        //   this.setAttribute('items', JSON.stringify(newItems));
-        //   this.render();
-        // }
-
-        // get id() {
-        //   return this._id;
-        // }
-
-        // set id(newId) {
-        //   this.setAttribute('id', String(newId));
-        //   this.render();
-        // }
 
         render() {
           if (!this.myShadow) {
@@ -75,13 +45,15 @@
             .items {
               display: flex;
               width: 100%;
+              justify-content: space-around;
             }
 
-            .items > div {
+            .items > * {
               flex-grow: 1;
               margin: 0 1%;
             }
             </style>`;
+
           this.descrEl = document.createElement('div');
           this.descrEl.className = 'description-area';
           this.descrEl.innerHTML = `<div class="circle">${this.id}</div>`;
@@ -95,10 +67,10 @@
               let element;
 
               if (item.items) {
-                element = document.createElement('div', { is: 'my-tree' });
+                element = document.createElement('my-tree');
                 element.items = item.items;
               } else {
-                element = document.createElement('div', { is: 'my-leaf' });
+                element = document.createElement('my-leaf');
               }
 
               element.id = item.id;
@@ -110,7 +82,7 @@
         }
       }
 
-      class MyLeaf extends HTMLElement/*HTMLDivElement*/ {
+      class MyLeaf extends HTMLElement {
         constructor() {
           super();
           this.myShadow = this.attachShadow({ mode: 'open' });
@@ -119,25 +91,6 @@
         connectedCallback() {
           this.render();
         }
-
-        // static get observedAttributes() {
-        //   return ['id'];
-        // }
-
-        // attributeChangedCallback(name, oldValue, newValue) {
-        //   if (name === 'id') {
-        //     this._id = Number(newValue);
-        //   }
-        // }
-
-        // get id() {
-        //   return this._id;
-        // }
-
-        // set id(newId) {
-        //   this.setAttribute('id', String(newId));
-        //   this.render();
-        // }
 
         render() {
           if (!this.myShadow) {
@@ -205,9 +158,6 @@
           },
         ],
       };
-
-      // customElements.define('my-tree', MyTree, { extends: 'div' });
-      // customElements.define('my-leaf', MyLeaf, { extends: 'div' });
 
       customElements.define('my-tree', MyTree);
       customElements.define('my-leaf', MyLeaf);
