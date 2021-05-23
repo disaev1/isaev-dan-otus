@@ -1,0 +1,29 @@
+.description-area {
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-top: none;
+}
+
+.description-area .circle {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 100%;
+}
+
+.items {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.items > * {
+  flex-grow: 1;
+  margin: 0 1%;
+}

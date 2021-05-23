@@ -1,0 +1,19 @@
+.description-area {
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border: 1px solid black;
+  border-top: none;
+}
+
+.description-area .circle {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: darkgreen;
+  border-radius: 100%;
+}
