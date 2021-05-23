@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CustomElements and Shadow DOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <script type="text/javascript">
+      class MyTree extends HTMLElement {
+        constructor() {
+          super();
+          this.myShadow = this.attachShadow({ mode: 'open' });
+        }
+
+        connectedCallback() {
+          this.render();
+        }
+
+        render() {
+          if (!this.myShadow) {
+            return;
+          }
+
+          this.myShadow.innerHTML = `<style>
+            .description-area {
+              padding: 10px 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: 1px solid black;
+              border-top: none;
+            }
+
+            .description-area .circle {
+              width: 20px;
+              height: 20px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: 1px solid black;
+              border-radius: 100%;
+            }
+
+            .items {
+              display: flex;
+              width: 100%;
+              justify-content: space-around;
+            }
+
+            .items > * {
+              flex-grow: 1;
+              margin: 0 1%;
+            }
+            </style>`;
+
+          this.descrEl = document.createElement('div');
+          this.descrEl.className = 'description-area';
+          this.descrEl.innerHTML = `<div class="circle">${this.id}</div>`;
+          this.myShadow.append(this.descrEl);
+
+          if (this.items) {
+            this.itemsEl = document.createElement('div');
+            this.itemsEl.className = 'items';
+
+            this.items.forEach(item => {
+              let element;
+
+              if (item.items) {
+                element = document.createElement('my-tree');
+                element.items = item.items;
+              } else {
+                element = document.createElement('my-leaf');
+              }
+
+              element.id = item.id;
+              this.itemsEl.append(element);
+            });
+
+            this.myShadow.append(this.itemsEl);
+          }
+        }
+      }
+
+      class MyLeaf extends HTMLElement {
+        constructor() {
+          super();
+          this.myShadow = this.attachShadow({ mode: 'open' });
+        }
+
+        connectedCallback() {
+          this.render();
+        }
+
+        render() {
+          if (!this.myShadow) {
+            return;
+          }
+
+          this.myShadow.innerHTML = `<style>
+              .description-area {
+                padding: 10px 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                border: 1px solid black;
+                border-top: none;
+              }
+
+              .description-area .circle {
+                width: 20px;
+                height: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: darkgreen;
+                border-radius: 100%;
+              }
+            </style>`;
+
+          this.descrEl = document.createElement('div');
+          this.descrEl.className = 'description-area';
+          this.descrEl.innerHTML = `<div class="circle">${this.id}</div>`;
+          this.myShadow.append(this.descrEl);
+        }
+      }
+
+      const tree = {
+        id: 1,
+        items: [
+          {
+            id: 2,
+            items: [
+              { id: 5 },
+              { id: 6},
+            ],
+          },
+          {
+            id: 3,
+            items: [
+              { id: 7 },
+            ],
+          },
+          {
+            id: 4,
+            items: [
+              { id: 8 },
+              {
+                id: 9,
+                items: [
+                  { id: 11 },
+                  { id: 12 },
+                ],
+              },
+              { id: 10 },
+            ],
+          },
+        ],
+      };
+
+      customElements.define('my-tree', MyTree);
+      customElements.define('my-leaf', MyLeaf);
+
+      const root = document.createElement('my-tree');
+      root.id = tree.id;
+      root.items = tree.items;
+      document.body.append(root);
+    </script>
+  </body>
+</html>
