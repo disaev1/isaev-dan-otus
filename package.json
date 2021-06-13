@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha --require @babel/register './javascript-1/index.test.js'"
+    "test": "nyc mocha --require @babel/register ./javascript-1/index.test.js ./javascript-5/index.test.js",
+    "tree": "node ./javascript-5/index.js"
   },
   "author": "",
   "license": "ISC",
