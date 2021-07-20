@@ -1,0 +1,45 @@
+query products($categories: [String!], $search: String) {
+  products(categories: $categories, search: $search) {
+    id
+    name
+    category
+  }
+}
+
+query product($id: ID!) {
+  product(id: $id) {
+    id, name, price, category
+    dimensions {
+      w, h, l
+    }
+    weight, skuLeft
+  }
+}
+
+query categories {
+  categories {
+    name
+    subcategories
+  }
+}
+
+query orders {
+  orders {
+    id
+    userId
+    paymentMethod
+    state
+    items {
+      name
+      price
+      skuId
+      count
+    }
+  }
+}
+
+query users {
+  users {
+    id, login, name, surname, avatarUrl, level
+  }
+}

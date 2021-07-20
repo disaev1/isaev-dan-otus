@@ -1,0 +1,52 @@
+mutation addUser($login: String!, $mutableUserData: MutableUserData) {
+  user(type: "create", login: $login, mutableData: $mutableUserData) {
+    id
+    login
+  }
+}
+
+mutation changeUser($id: ID!, $email: String, $mutableUserData: MutableUserData) {
+  user(type: "change", id: $id, email: $email, mutableData: $mutableUserData) {
+    id
+    login
+    name
+    surname
+    email
+    avatarUrl
+    level
+	}
+}
+
+mutation deleteUser($id: ID!) {
+  user(type: "delete", id: $id) {
+    id
+  }
+}
+
+mutation createOrder($firstSkuId: String!) {
+  order(action: "create", firstSkuId: $firstSkuId) {
+    id
+    userId
+    state
+    items {
+      skuId
+      count
+      name
+      price
+    }
+  }
+}
+
+mutation addProductToOrder($id: String!, $skuId: String!) {
+  order(action: "addProduct", id: $id, skuId: $skuId) {
+    id
+    userId
+    state
+    items {
+      skuId
+      count
+      name
+      price
+    }
+  }
+}
