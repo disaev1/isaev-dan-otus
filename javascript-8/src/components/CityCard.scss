@@ -1,0 +1,50 @@
+@import '../vars.scss';
+
+.CityCard {
+  padding: 1rem;
+  border-radius: .5rem;
+  position: relative;
+  width: 300px;
+  height: 175px;
+  background: white;
+  line-height: 1.2;
+
+  &_inactive {
+    background: $moonGray;
+  }
+
+  &__city {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+  }
+
+  &__temp {
+    font-weight: bold;
+    font-size: 4rem;
+  }
+
+  &__humidity {
+    margin-top: 1rem;
+    color: $fadedTextColor;
+  }
+
+  &__humidityIcon {
+    margin-right: .5rem;
+  }
+
+  &__favouriteButton {
+    position: absolute;
+    cursor: pointer;
+    top: .5rem;
+    right: .5rem;
+    color: $moonGray;
+
+    &:hover {
+      color: $gold;
+    }
+
+    &_active {
+      color: $gold;
+    }
+  }
+}
