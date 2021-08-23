@@ -1,0 +1,55 @@
+@import '../vars.scss';
+
+.CitySelector {
+  min-height: 150px;
+
+  &__input {
+    display: block;
+    padding: .5rem;
+    margin-bottom: 1rem;
+    width: 300px;
+    font-size: 1rem;
+    border-radius: .5rem;
+    border: none;
+  }
+
+  &__option {
+    cursor: pointer;
+    padding-left: .5rem;
+    padding-right: .5rem;
+
+    &:hover {
+      background: $moonGray;
+      color: $darkGray;
+    }
+
+    &_selected {
+      background: $bgcolor;
+      color: white;
+    }
+  }
+
+  &__listArrow {
+    cursor: pointer;
+
+    &:hover:not(&_disabled) {
+      color: green;
+    }
+
+    &_disabled {
+      cursor: inherit;
+      color: grey;
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    margin-top: 1rem;
+    padding-left: .5rem;
+  }
+
+  &__pageIndicator {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
