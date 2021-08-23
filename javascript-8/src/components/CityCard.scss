@@ -18,6 +18,11 @@
     font-size: 1.5rem;
   }
 
+  &__localDate {
+    font-size: .75rem;
+    color: $gray;
+  }
+
   &__temp {
     font-weight: bold;
     font-size: 4rem;

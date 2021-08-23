@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const ConfigWebpackPlugin = require("config-webpack");
+const ConfigWebpackPlugin = require('config-webpack');
 
 module.exports = {
   entry: './src/index.ts',
@@ -40,6 +40,9 @@ module.exports = {
     port: 3000,
     publicPath: 'http://localhost:3000/dist',
     hotOnly: true,
+    historyApiFallback: {
+      index: 'index.html',
+    },
   },
 
   plugins: [new webpack.HotModuleReplacementPlugin(), new ConfigWebpackPlugin()],
