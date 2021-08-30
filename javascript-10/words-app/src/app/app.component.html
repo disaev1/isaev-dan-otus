@@ -1,0 +1,8 @@
+<input placeholder="Введите слова" [value]="words" (input)="handleInput($event)" />
+<button (click)="translate()">Перевести!</button>
+<div>{{ status }}</div>
+<h1>Добавленные слова</h1>
+<div *ngFor="let wordTranslations of dictStorage.dict.en | keyvalue">
+  <div style="font-weight: bold;">{{ wordTranslations.key }}</div>
+  <div *ngFor="let translation of wordTranslations.value | keyvalue">{{ translation.key }}: {{ translation.value }}</div>
+</div>
