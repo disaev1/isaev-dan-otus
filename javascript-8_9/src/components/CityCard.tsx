@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import axios from 'axios';
 import _ from 'lodash';
 import classNames from 'classnames';
+
+import { getWeather, defaultWeatherData, WeatherData } from '../utils/weatherApi';
+import { secondsInHour } from '../utils/constants';
+import { formattedTempC, formattedDate } from '../utils/formatters';
 
 import './CityCard.scss';
 
@@ -11,41 +14,19 @@ interface CityCardProps {
   isFavourite?: boolean;
 }
 
-interface WeatherMain {
-  temp: number;
-  feels_like: number;
-  pressure: number;
-  humidity: number;
-}
-
-interface WeatherCommon {
-  id: number;
-  main: string;
-  description: string;
-}
-
-interface WeatherData {
-  name: string;
-  main: WeatherMain;
-  weather: WeatherCommon[];
-}
-
-declare namespace CONFIG {
-  const weatherApiKey: string;
-};
-
-const defaultWeatherData = { main: {} };
-
-const weatherApiRoot = 'https://api.openweathermap.org/data/2.5/weather';
-const apiKey = CONFIG.weatherApiKey;
-const zeroK = 273.15;
-
 const CityCard = ({ city, onFavouriteAdd, isFavourite }: CityCardProps): JSX.Element => {
-  const [weatherData, setWeatherData] = useState(defaultWeatherData);
+  const [weatherData, setWeatherData] = useState<WeatherData>(defaultWeatherData);
 
   const resolvedCityName = useMemo(() => (weatherData as WeatherData).name, [weatherData]);
-  const tempC = useMemo(() => Math.round((weatherData as WeatherData).main.temp - zeroK), [weatherData]);
-  const feelTempC = useMemo(() => Math.round((weatherData as WeatherData).main.feels_like - zeroK), [weatherData]);
+
+  const localDate = useMemo(() => {
+    const timezoneOffset = weatherData.timezone / secondsInHour;
+
+    return formattedDate(weatherData.dt, timezoneOffset);
+  }, [weatherData]);
+  
+  const tempC = useMemo(() => formattedTempC((weatherData as WeatherData).main.temp), [weatherData]);
+  const feelTempC = useMemo(() => formattedTempC((weatherData as WeatherData).main.feels_like), [weatherData]);
   const humidity = useMemo(() => Math.round((weatherData as WeatherData).main.humidity), [weatherData]);
 
   const description = useMemo(() => {
@@ -57,24 +38,16 @@ const CityCard = ({ city, onFavouriteAdd, isFavourite }: CityCardProps): JSX.Ele
 
   const handleFavouriteAdd = () => onFavouriteAdd(city);
 
-  const getWeather = async () => {
-    const { data } = await axios.get(weatherApiRoot, {
-      params: {
-        q: city,
-        appid: apiKey,
-        lang: 'ru',
-      },
-    });
-
-    setWeatherData(data);
-  };
-
   useEffect(() => {
-    if (!city) {
-      return;
+    async function fetchWeatherData() {
+      if (!city) {
+        return;
+      }
+  
+      setWeatherData(await getWeather(city));
     }
-
-    getWeather();
+    
+    fetchWeatherData();
   }, [city]);
 
   return (
@@ -87,7 +60,10 @@ const CityCard = ({ city, onFavouriteAdd, isFavourite }: CityCardProps): JSX.Ele
             >
               <i className="fas fa-star"></i>
             </div>
-            <div className="CityCard__city">{resolvedCityName}</div>
+            <div className="flex items-center">
+              <div className="CityCard__city mr2">{resolvedCityName}</div>
+              <div className="CityCard__localDate">{localDate}</div>
+            </div>
             <div className="CityCard__description">{description}</div>
             <div className="CityCard__temp">{tempC}℃</div>
             <div className="CityCard__feelTemp">Ощущается как {feelTempC}℃</div>
