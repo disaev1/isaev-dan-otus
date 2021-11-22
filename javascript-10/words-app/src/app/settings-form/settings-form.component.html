@@ -1,0 +1,26 @@
+<form #settingsForm="ngForm">
+  <div class="table">
+    <div class="row">
+      <div class="cell">
+        <label class="label" for="fromLang">Язык слов</label>
+      </div>
+      <div class="cell">
+        <select [(ngModel)]="fromLang" name="fromLang">
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+          <option value="it">Italiano</option>
+          <option value="fr">Francais</option>
+          <option value="pl">Polska</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell">
+        <label class="label" for="fromLang">Продолжительность игры</label>
+      </div>
+      <div class="cell">
+        <input [(ngModel)]="gameDuration" name="gameDuration" />
+      </div>
+    </div>
+  </div>
+</form>

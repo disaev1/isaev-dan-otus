@@ -1,7 +1,10 @@
+import * as moment from 'moment';
+
 import { Injectable, ApplicationRef } from '@angular/core';
 import { of } from 'rxjs';
 
-const localStorageAppPrefix = 'wordsAppOtus';
+import { localStorageAppPrefix } from './constants';
+
 
 interface Translation {
   fromLang: string,
@@ -18,8 +21,14 @@ interface LangDict {
   [word: string]: WordTranslations;
 }
 
-interface Dict {
-  [fromLang: string]: LangDict;
+export interface TranslationRecord {
+  origin: string;
+  added: string;
+  translation: string;
+}
+
+export interface Dict {
+  [fromLang: string]: TranslationRecord[];
 }
 
 @Injectable({
@@ -50,15 +59,18 @@ export class DictStorageService {
 
   save({ fromLang, toLang, source, result }: Translation) {
     if (!this.dict[fromLang]) {
-      this.dict[fromLang] = {};
+      this.dict[fromLang] = [];
     }
 
     const targetDict = this.dict[fromLang];
 
-    if (!targetDict[source]) {
-      targetDict[source] = { [toLang]: result };
+    const targetRecord = targetDict.find(item => item.origin === source);
+
+    if (!targetRecord) {
+      targetDict.push({ origin: source, added: moment.utc().format(), translation: result });
     } else {
-      targetDict[source][toLang] = result;
+      targetRecord.added = moment.utc().format();
+      targetRecord.translation = result;
     }
 
     this.saveDict(this.dict);

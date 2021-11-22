@@ -1,0 +1,8 @@
+<h2>Последние добавленные слова</h2>
+<div *ngFor="let dateWords of lastAddedWords" class="dateItems">
+  <div class="date">{{ dateWords.date }}</div>
+  <div class="item" *ngFor="let item of dateWords.items">
+    <div class="item__title">{{ item.origin }}</div>
+    <div class="item__translation">{{ item.translation }}</div>
+  </div>
+</div>

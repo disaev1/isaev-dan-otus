@@ -1,0 +1,22 @@
+.date {
+  color: grey;
+}
+
+.item {
+  background: lightblue;
+  padding: .5rem;
+  margin-bottom: .5rem;
+
+  &__title {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  &__translation {
+    font-style: italic;
+  }
+}
+
+.dateItems {
+  margin-bottom: 1rem;
+}

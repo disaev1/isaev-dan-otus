@@ -27,8 +27,4 @@ export class AppComponent {
       },
     );
   }
-
-  handleInput(e: Event): void {
-    this.words = (e.target as HTMLInputElement).value;
-  }
 }
