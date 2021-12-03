@@ -3,14 +3,18 @@
   <div>Всего слов: {{ wordsList.length }}</div>
   <div>Продолжительность: {{ settings.gameDuration }} секунд</div>
   <div>Введите перевод слова с языка {{ settings.fromLang }} на язык {{ settings.toLang }}</div>
-  <div *ngIf="remaining !== null">
-    <div class="game__timer">Осталось: {{ remaining }} секунд</div>
+  <div *ngIf="displayedResults">
+    <div>{{ displayedResults.firstLine }}</div>
+    <div>{{ displayedResults.secondLine }}</div>
+  </div>
+  <div *ngIf="remainingSeconds !== null">
+    <div class="game__timer">Осталось: {{ remainingSeconds }} секунд</div>
     <div class="game__rightWrong">
       <div>Правильно: {{ right }}</div><div>Wrong: {{ wrong }}</div>
     </div>
     <div *ngIf="curEntry">{{ curEntry.origin }}</div>
-    <input placeholder="Перевод" (keydown)="handleTranslationEnter($event)" ([ngModel])="enteredTranslation" />
+    <input type="text" placeholder="Перевод" (keydown)="handleTranslationEnter($event)" [formControl]="enteredTranslation" />
   </div>
-  <button *ngIf="remaining !== null" (click)="stop()">Остановить</button>
-  <button *ngIf="remaining === null" (click)="start()">Начать</button>
+  <button *ngIf="remainingSeconds !== null" (click)="stop()">Остановить</button>
+  <button *ngIf="remainingSeconds === null" (click)="start()">Начать</button>
 </div>
