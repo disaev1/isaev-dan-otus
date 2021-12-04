@@ -1,12 +1,9 @@
-<input placeholder="Введите слова" [(ngModel)]="words" />
-<div>words: {{ words }}</div>
-<button (click)="translate()">Перевести!</button>
-<div>{{ status }}</div>
-<app-last-added-words></app-last-added-words>
-<!-- <h1>Добавленные слова</h1>
-<div *ngFor="let wordTranslations of dictStorage.dict.en | keyvalue">
-  <div style="font-weight: bold;">{{ wordTranslations.key }}</div>
-  <div *ngFor="let translation of wordTranslations.value | keyvalue">{{ translation.key }}: {{ translation.value }}</div>
-</div> -->
+<nav class="menu">
+  <a class="button mr2" routerLink="/words" routerLinkActive="active">Список слов</a>
+  <a class="button mr2" routerLink="/game" routerLinkActive="active">Играть!</a>
+  <a class="button" routerLink="/settings" routerLinkActive="active">Настройки</a>
+</nav>
+<router-outlet></router-outlet>
+<!-- <app-last-added-words></app-last-added-words>
 <app-game></app-game>
-<app-settings-form></app-settings-form>
+<app-settings-form></app-settings-form> -->

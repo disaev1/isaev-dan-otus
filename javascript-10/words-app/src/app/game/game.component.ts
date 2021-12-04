@@ -43,6 +43,8 @@ export class GameComponent implements OnInit {
   private setRemainingSeconds(milliseconds: number | null) {
     if (milliseconds === null) {
       this.remainingSeconds = null;
+      
+      return;
     }
 
     this.remainingSeconds = Math.floor(milliseconds / 1000)
@@ -65,13 +67,11 @@ export class GameComponent implements OnInit {
       this.setRemainingSeconds(curTime);
 
       if (curTime < 0) {
-        window.clearInterval(this.timer);
-        this.setRemainingSeconds(null);
+        this.stop();
       }
     }, 100);
 
     this.nextEntry();
-    console.log('curWord', this.curEntry);
   }
 
   public stop() {

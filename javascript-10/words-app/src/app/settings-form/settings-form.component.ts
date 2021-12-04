@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-settings-form',
@@ -11,7 +12,9 @@ export class SettingsFormComponent implements OnInit {
   fromLang = 'en';
   gameDuration = 120;
 
-  constructor() { }
+  constructor(private settings: SettingsService) {
+
+  }
 
   ngOnInit(): void {
     console.log('form is', this);
@@ -19,8 +22,15 @@ export class SettingsFormComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.settingsForm.valueChanges.subscribe(newValue => {
-      console.log('new value', newValue);
+      this.fromLang = newValue.fromLang;
+      this.gameDuration = Number(newValue.gameDuration);
     });
   }
 
+  public save() {
+    // TODO Deal with those stubs...
+    this.settings.save(
+      { fromLang: this.fromLang, gameDuration: this.gameDuration, toLang: 'ru', gameWordsCount: 0 }
+    );
+  }
 }

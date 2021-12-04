@@ -1,9 +1,12 @@
-import * as moment from 'moment';
-import * as _ from 'lodash';
+import moment from 'moment';
+import _ from 'lodash';
 
 import { Component, OnInit } from '@angular/core';
 
 import { DictStorageService } from '../dict-storage.service';
+import { SettingsService } from '../settings.service';
+import type { Settings } from '../settings.service';
+import { WordsProcessorService } from '../words-processor.service';
 
 interface TranslationRecord {
   origin: string;
@@ -26,51 +29,17 @@ interface WordsByDateArrayRecord {
   styleUrls: ['./last-added-words.component.scss']
 })
 export class LastAddedWordsComponent implements OnInit {
-  // lastAddedWords = [
-  //   {
-  //     date: '2021-04-01',
-  //     items: [
-  //       {
-  //         origin: 'to wash',
-  //         translation: 'мыть',
-  //       },
-  //       {
-  //         origin: 'people',
-  //         translation: 'люди',
-  //       },
-  //       {
-  //         origin: 'ball',
-  //         translation: 'мяч',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     date: '2021-03-31',
-  //     items: [
-  //       {
-  //         origin: 'to roar',
-  //         translation: 'рычать',
-  //       },
-  //       {
-  //         origin: 'to cancel',
-  //         translation: 'отменять',
-  //       },
-  //       {
-  //         origin: 'to persuade',
-  //         translation: 'настаивать',
-  //       },
-  //     ],
-  //   }
-  // ];
-  settings = {
-    fromLang: 'en',
-  };
+  settings: Settings;
+
+  words = '';
+  status = '';
 
   get lastAddedWords(): WordsByDateArrayRecord[] {
     const dict = this.dictStorage.dict;
     const targetDict = dict[this.settings.fromLang] || [];
     
     let acc: WordsByDate = {};
+
     targetDict.forEach(record => {
       const date = moment(record.added).format('DD.MM.YYYY');
 
@@ -92,9 +61,27 @@ export class LastAddedWordsComponent implements OnInit {
     return result;
   }
 
-  constructor(public dictStorage: DictStorageService) { }
+  constructor(
+    private wordsProcessor: WordsProcessorService,
+    private dictStorage: DictStorageService,
+    private settingsService: SettingsService,
+  ) {
+    this.settings = this.settingsService.getSettings();
+  }
 
   ngOnInit(): void {
   }
 
+  async translate() {
+    this.status = 'Переводим...';
+
+    this.wordsProcessor.process(this.words).subscribe(
+      () => {},
+      () => { this.status = 'Ошибка!'; },
+      () => {
+        this.status = '';
+        this.words = '';
+      },
+    );
+  }
 }
