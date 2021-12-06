@@ -1,6 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import type { Settings } from '../settings.service';
 import { SettingsService } from '../settings.service';
+
+interface Status {
+  timer: number | null;
+  text: string;
+  type: string | null;
+}
 
 @Component({
   selector: 'app-settings-form',
@@ -9,11 +16,12 @@ import { SettingsService } from '../settings.service';
 })
 export class SettingsFormComponent implements OnInit {
   @ViewChild('settingsForm') settingsForm: NgForm;
-  fromLang = 'en';
-  gameDuration = 120;
+  settings: Settings;
+  status: Status;
 
-  constructor(private settings: SettingsService) {
-
+  constructor(private settingsService: SettingsService) {
+    this.settings = settingsService.getSettings();
+    this.resetStatus();
   }
 
   ngOnInit(): void {
@@ -22,15 +30,42 @@ export class SettingsFormComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.settingsForm.valueChanges.subscribe(newValue => {
-      this.fromLang = newValue.fromLang;
-      this.gameDuration = Number(newValue.gameDuration);
+      this.settings = {
+        fromLang: (newValue.fromLang as string),
+        gameDuration: Number(newValue.gameDuration),
+        toLang: (newValue.toLang as string),
+        gameWordsCount: Number(newValue.gameDuration),
+      }
     });
   }
 
-  public save() {
-    // TODO Deal with those stubs...
-    this.settings.save(
-      { fromLang: this.fromLang, gameDuration: this.gameDuration, toLang: 'ru', gameWordsCount: 0 }
+  public save(): void {
+    if (this.settings.fromLang === this.settings.toLang) {
+      this.setStatus('error', 'Исходный язык и язык перевода не могут быть одинаковыми!');
+
+      return;
+    }
+
+    this.settingsService.save(this.settings).subscribe(
+      () => {
+        this.setStatus('success', 'Настройки сохранены!');
+      },
+      (e) => {
+        console.error(e);
+        this.setStatus('error', 'Ошибка сохранения!');
+      }
     );
+  }
+
+  private setStatus(type: string, text: string): void {
+    this.status.type = type;
+    this.status.text = text;
+    clearTimeout(this.status.timer);
+
+    this.status.timer = window.setTimeout(this.resetStatus, 3000);
+  }
+
+  private resetStatus() {
+    this.status = { text: '', timer: null, type: null };
   }
 }
