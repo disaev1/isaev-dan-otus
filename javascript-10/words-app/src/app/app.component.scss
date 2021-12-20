@@ -22,4 +22,8 @@
   display: flex;
   margin-bottom: .5rem;
   align-items: center;
+
+  .mat-button-base {
+    margin: 0 .25rem 0 0;
+  }
 }

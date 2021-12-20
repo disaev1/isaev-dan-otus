@@ -1,6 +1,10 @@
 <div class="game">
   <h1>Игра</h1>
-  <div>Всего слов: {{ wordsList.length }}</div>
+  <mat-progress-bar *ngIf="remainingSeconds" [value]="remainingSeconds / settings.gameDuration * 100"></mat-progress-bar>
+  <div>
+    <mat-icon style="color: #672044;">menu_book</mat-icon>
+    <div>Всего слов: {{ wordsList.length }}</div>
+  </div>
   <div>Продолжительность: {{ settings.gameDuration }} секунд</div>
   <div>Введите перевод слова с языка {{ settings.fromLang }} на язык {{ settings.toLang }}</div>
   <div *ngIf="displayedResults">

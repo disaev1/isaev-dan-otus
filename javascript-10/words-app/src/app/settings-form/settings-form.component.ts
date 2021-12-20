@@ -34,7 +34,7 @@ export class SettingsFormComponent implements OnInit {
         fromLang: (newValue.fromLang as string),
         gameDuration: Number(newValue.gameDuration),
         toLang: (newValue.toLang as string),
-        gameWordsCount: Number(newValue.gameDuration),
+        gameWordsCount: Number(newValue.gameWordsCount),
       }
     });
   }
