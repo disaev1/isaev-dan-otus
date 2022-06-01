@@ -1,0 +1,29 @@
+.label {
+  margin-right: .5rem;
+}
+
+.table {
+  display: table;
+}
+
+.row {
+  display: table-row;
+  height: 50px;
+}
+
+.cell {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+input, select {
+  width: 100%;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}

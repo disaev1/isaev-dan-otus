@@ -1,0 +1,54 @@
+<form #settingsForm="ngForm">
+  <div class="table">
+    <div class="row">
+      <div class="cell">
+        <label class="label" for="fromLang">Исходный язык</label>
+      </div>
+      <div class="cell">
+        <select [(ngModel)]="settings.fromLang" name="fromLang">
+          <option value="en">English</option>
+          <option value="en">Русский</option>
+          <option value="de">Deutsch</option>
+          <option value="it">Italiano</option>
+          <option value="fr">Francais</option>
+          <option value="pl">Polska</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell">
+        <label class="label" for="toLang">Язык перевода</label>
+      </div>
+      <div class="cell">
+        <select [(ngModel)]="settings.toLang" name="toLang">
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+          <option value="it">Italiano</option>
+          <option value="fr">Francais</option>
+          <option value="pl">Polska</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell">
+        <label class="label" for="gameDuration">Продолжительность игры</label>
+      </div>
+      <div class="cell">
+        <input [(ngModel)]="settings.gameDuration" name="gameDuration" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell">
+        <label class="label" for="gameWordsCount">Максимальное количество слов на игру</label>
+      </div>
+      <div class="cell">
+        <input [(ngModel)]="settings.gameWordsCount" name="gameWordsCount" />
+      </div>
+    </div>
+    <div class="row">
+      <button (click)="save()">Сохранить</button>
+    </div>
+  </div>
+  <div *ngIf="status.text" [class]="status.type">{{ status.text }}</div>
+</form>

@@ -1,0 +1,29 @@
+.button {
+  padding: .5rem;
+  background: grey;
+  color: black;
+  border-radius: 4px;
+  border: none;
+  text-decoration: none;
+  display: block;
+  transition: .3s;
+
+  &:hover {
+    background: lightgrey;
+  }
+
+  &.active {
+    background: black;
+    color: white;
+  }
+}
+
+.menu {
+  display: flex;
+  margin-bottom: .5rem;
+  align-items: center;
+
+  .mat-button-base {
+    margin: 0 .25rem 0 0;
+  }
+}
